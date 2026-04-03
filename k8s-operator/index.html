@@ -5,14 +5,14 @@
 <p>We offer a installer tool for windows and linux, that will install all necessary resources to have your operator up and running in seconds in the healthchecks namespace.</p>
 <p>You can download the differente releases from this links:</p>
 <ul>
-<li><a href="https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks/raw/master/deploy/operator/installer/releases/operator-installer-win.exe">Windows Release</a></li>
-<li><a href="https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks/raw/master/deploy/operator/installer/releases/operator-installer-linux">Linux Release</a></li>
+<li><a href="https://github.com/DotNetDiag/HealthChecks/raw/master/deploy/operator/installer/releases/operator-installer-win.exe">Windows Release</a></li>
+<li><a href="https://github.com/DotNetDiag/HealthChecks/raw/master/deploy/operator/installer/releases/operator-installer-linux">Linux Release</a></li>
 </ul>
 <p>Note: If you execute the tool with --delete parameters, a resource cleanup will be triggered and all the operator related resources including the crd will be removed.</p>
 <h3 id="installing-from-definition-files">Installing from definition files</h3>
 <p>You can deploy healthchecks operator in your cluster by cloning the repository and applying the yaml definition files:</p>
 <ul>
-<li><p>Apply the custom resource definition: <a href="https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks/blob/master/deploy/operator/crd/healthcheck-crd.yaml">healthcheck-crd</a></p>
+<li><p>Apply the custom resource definition: <a href="https://github.com/DotNetDiag/HealthChecks/blob/master/deploy/operator/crd/healthcheck-crd.yaml">healthcheck-crd</a></p>
 <p><code>kubectl apply -f deploy/operator/crd/healthcheck-crd.yaml</code></p>
 </li>
 <li><p>Apply the rest of definition yamls</p>
@@ -20,7 +20,7 @@
 </li>
 </ul>
 <h2 id="creating-a-healthcheck-resource">Creating a HealthCheck Resource</h2>
-<p>The <a href="https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks/blob/master/deploy/operator/crd/healthcheck-crd.yaml">HealthCheck operator definition</a>, has the following fields to be configured:</p>
+<p>The <a href="https://github.com/DotNetDiag/HealthChecks/blob/master/deploy/operator/crd/healthcheck-crd.yaml">HealthCheck operator definition</a>, has the following fields to be configured:</p>
 <h3 id="required-fields">Required fields</h3>
 <table>
 <thead>
@@ -142,6 +142,7 @@ same namespace where the UI resource is created or watch to all services in all 
 </tr>
 </tbody>
 </table>
+<p>The container image examples in this section still use the currently published <code>xabarilcoding/*</code> namespace.</p>
 <h2 id="sample-healthchecks-operator-tutorial">Sample HealthChecks Operator Tutorial</h2>
 <p>Let's start by creating a demo namespace:</p>
 <p><code>kubectl create ns demo</code></p>
