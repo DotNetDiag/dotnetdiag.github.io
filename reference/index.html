@@ -14,12 +14,28 @@
 <li><a href="/reference/readmes/">Project READMEs</a> contains generated pages for package, extension, and sample README files that live outside <code>docs/</code>.</li>
 <li><a href="/guides/">Documentation guides</a> contains operational articles for Docker, webhooks, branding, and Kubernetes.</li>
 </ul>
-<h2 id="suggested-reading-paths">Suggested reading paths</h2>
-<ul>
-<li>If you are integrating health checks into a service for the first time, start with <a href="/reference/getting-started/">Getting Started</a> and then continue to <a href="/reference/package-catalog/">Package Catalog</a>.</li>
-<li>If you are rolling out the dashboard, jump to <a href="/reference/ui-manual/">HealthChecks UI Manual</a> and then use the related guides.</li>
-<li>If you are wiring telemetry export, open <a href="/reference/publishers-and-metrics/">Publishers And Metrics</a>.</li>
-<li>If you are targeting containers, Kubernetes, Azure DevOps, or protected dashboards, open <a href="/reference/deployment-and-integrations/">Deployment And Integrations</a>.</li>
-</ul>
+<h2 id="scenario-paths">Scenario paths</h2>
+<h3 id="health-checks-only">Health Checks Only</h3>
+<ol>
+<li>Start with <a href="/reference/getting-started/">Getting Started</a> for the minimal registration pattern.</li>
+<li>Continue to <a href="/reference/package-catalog/">Package Catalog</a> to choose the provider package you actually need.</li>
+<li>Use <a href="/reference/readmes/">Project READMEs</a> when you need provider-specific defaults, overloads, or credential examples.</li>
+<li>Open <a href="/reference/publishers-and-metrics/">Publishers And Metrics</a> only if this service also needs outbound telemetry or Prometheus scraping.</li>
+</ol>
+<h3 id="add-the-ui">Add The UI</h3>
+<ol>
+<li>Start with <a href="/reference/getting-started/">Getting Started</a> if the service does not already expose a UI-compatible health endpoint.</li>
+<li>Move to <a href="/reference/ui-manual/">HealthChecks UI Manual</a> for dashboard setup, storage, polling, and configuration.</li>
+<li>Use the operational guides for the next concern: <a href="/ui-docker/">UI Docker image</a>, <a href="/webhooks/">Webhooks and failure notifications</a>, <a href="/styles-branding/">Interface styling and branding</a>.</li>
+<li>Use <a href="/reference/readmes/">Project READMEs</a> as appendix material when a storage provider or extension has extra setup details.</li>
+</ol>
+<h3 id="add-kubernetes">Add Kubernetes</h3>
+<ol>
+<li>Start with <a href="/reference/deployment-and-integrations/">Deployment And Integrations</a> to see the full deployment surface first.</li>
+<li>Read <a href="/kubernetes-liveness/">Liveness and readiness probes</a> if you are only exposing health endpoints to Kubernetes.</li>
+<li>Read <a href="/k8s-operator/">Kubernetes operator</a> and <a href="/k8s-ui-discovery/">Automatic Kubernetes service discovery</a> if the rollout includes HealthChecks UI inside the cluster.</li>
+<li>Return to <a href="/reference/ui-manual/">HealthChecks UI Manual</a> when the cluster deployment also needs UI storage, notification, or dashboard configuration details.</li>
+</ol>
+<h2 id="notes">Notes</h2>
 <p>The generated README catalog remains available as appendix material, but the reference manual is now the primary narrative entry point for this site.
-Use the README appendix when you need package-level edge cases, but start from these chapters when you want the supported integration path.</p>
+Use the README appendix when you need package-level edge cases, but start from these scenario paths when you want the supported integration path.</p>
