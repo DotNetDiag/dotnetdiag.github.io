@@ -1,4 +1,37 @@
-<p>This repository, offers a Kubernetes Operator that automatically deploys and configures the HealthChecks UI in k8s and also monitors labeled services that expose healthchecks in a given namespace.</p>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Health Checks Kubernetes Operator | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+    <section class="page-header">
+        <p class="page-kicker">DotNetDiag HealthChecks</p>
+        <h1>Health Checks Kubernetes Operator</h1>
+        
+    </section>
+    
+
+    <div class="page-content">
+        <p>This repository, offers a Kubernetes Operator that automatically deploys and configures the HealthChecks UI in k8s and also monitors labeled services that expose healthchecks in a given namespace.</p>
 <p>The operator also has a namespaced service watcher that can detect new services and report them back to the UI and also tracks services modifications and removals so the UI always represents the latest desired state.</p>
 <h2 id="installing-healthchecks-operator">Installing HealthChecks Operator</h2>
 <h3 id="intalling-with-the-installer-tool">Intalling with the installer tool</h3>
@@ -323,3 +356,15 @@ spec:
 </code></pre>
 <p>Once your webhooks are specified in the yaml definition, you can check if they are correctly configured in the UI webhooks section:</p>
 <p><img src="./images/ui-webhooks2.png" alt="Webhooks" /></p>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

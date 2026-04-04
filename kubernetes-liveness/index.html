@@ -1,4 +1,37 @@
-<h2 id="kubernetes-liveness-and-readiness-probes-using-healthchecks">Kubernetes liveness and readiness probes using HealthChecks</h2>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kubernetes Liveness and Readiness Probes Using HealthChecks | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+    <section class="page-header">
+        <p class="page-kicker">DotNetDiag HealthChecks</p>
+        <h1>Kubernetes Liveness and Readiness Probes Using HealthChecks</h1>
+        
+    </section>
+    
+
+    <div class="page-content">
+        <h2 id="kubernetes-liveness-and-readiness-probes-using-healthchecks">Kubernetes liveness and readiness probes using HealthChecks</h2>
 <p>Asp.Net Core HealthChecks becomes really useful to configure our liveness and readiness probes in our kubernetes deployments. In the following lines we will show a sample of how can we do this. This sample is a little tutorial that might be useful for people starting to work with HealthChecks and Kubernetes.</p>
 <p>To follow the sample you will need to have docker and kubernetes running on your local computer, because we are going to build an image locally and we are not going to publish it. Remember that if you are using Windows and you are using minikube instead of docker for windows you have to set the docker environment to aim the minikube vm by executing <strong>eval $(minikube docker-env)</strong> in a bash window so docker sends the build context to the minikube machine and the k8s cluster can see the local images.</p>
 <p>First of all, we can create a new Empty Asp.Net Core application called <strong>WebApp</strong> and add the <strong>Microsoft.AspNetCore.Diagnostics.HealthChecks</strong> package to add the health checks capabilities to our application. Remember to set the Docker support checkbox to have the project <strong>Dockerfile</strong> automatically created.</p>
@@ -182,3 +215,15 @@ webapp-deploy-7686b8c794-kzjrx   0/1   Running   1     27m
 <p>The pods are alive but one of their dependencies isn't.</p>
 <p>In a real scenario, maybe one, maybe some, but not all the pods will be non ready, and that pods will get out of traffic, but as we are using the same images and dependencies on this deployment all pods are expelled from service.</p>
 <p>This has been a little introduction to how can you use Health Checks and benefit from it when you are running containers within an orchestrator.</p>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

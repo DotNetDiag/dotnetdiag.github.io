@@ -1,9 +1,42 @@
-<p>This chapter replaces the push-results section of the repository README and groups the outbound telemetry options in one place.</p>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Publishers And Metrics | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+    <section class="page-header">
+        <p class="page-kicker">DotNetDiag HealthChecks</p>
+        <h1>Publishers And Metrics</h1>
+        
+    </section>
+    
+
+    <div class="page-content">
+        <p>This chapter replaces the push-results section of the repository README and groups the outbound telemetry options in one place.</p>
 <h2 id="publisher-packages">Publisher packages</h2>
 <ul>
 <li><code>DotNetDiag.HealthChecks.Publisher.ApplicationInsights</code></li>
 <li><code>DotNetDiag.HealthChecks.Publisher.CloudWatch</code></li>
-<li><a href="/reference/readmes/src/HealthChecks.Publisher.Datadog/">DotNetDiag.HealthChecks.Publisher.Datadog</a></li>
+<li><a href="/reference/readmes/src/HealthChecks-Publisher-Datadog/">DotNetDiag.HealthChecks.Publisher.Datadog</a></li>
 <li><code>DotNetDiag.HealthChecks.Publisher.Prometheus</code> - deprecated gateway publisher</li>
 <li><code>DotNetDiag.HealthChecks.Publisher.Seq</code></li>
 </ul>
@@ -41,3 +74,15 @@ app.UseHealthChecksPrometheusExporter(
 <li>Use the Prometheus exporter when the monitoring system expects a scrape endpoint.</li>
 <li>If you are already using HealthChecks UI, keep the UI API and your exporter endpoints separate so each consumer can use the response shape it expects.</li>
 </ul>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

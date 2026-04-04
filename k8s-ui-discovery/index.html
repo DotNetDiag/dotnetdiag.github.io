@@ -1,4 +1,37 @@
-<h2 id="health-checks-ui-automatic-kubernetes-services-discovery">Health Checks UI automatic Kubernetes services discovery</h2>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Health Checks UI Automatic Kubernetes Services Discovery | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+    <section class="page-header">
+        <p class="page-kicker">DotNetDiag HealthChecks</p>
+        <h1>Health Checks UI Automatic Kubernetes Services Discovery</h1>
+        
+    </section>
+    
+
+    <div class="page-content">
+        <h2 id="health-checks-ui-automatic-kubernetes-services-discovery">Health Checks UI automatic Kubernetes services discovery</h2>
 <p>HealthChecks UI supports automatic discovery of k8s services exposing pods that have health checks endpoints. This means, you can benefit from it and avoid registering all the endpoints you want to check and let the UI discover them using the k8s api.</p>
 <p><img src="./images/k8s-discovery-service.png" alt="k8s-discovery" /></p>
 <p>The default mechanism to register the target endpoints to be queried for health is using the UI project appsettings.json and declare our named endpoints:</p>
@@ -142,3 +175,15 @@ rules:
   verbs: [&quot;list&quot;]
 </code></pre>
 <p>The role needs to be added in every namespace configured, and a corresponding <code>RoleBinding</code> to bind it to the service account. If you wish to query all namespaces, replace <code>Role</code> with <code>ClusterRole</code> and <code>RoleBinding</code> to <code>ClusterRoleBinding</code>.</p>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

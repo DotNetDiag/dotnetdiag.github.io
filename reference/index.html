@@ -1,41 +1,181 @@
-<p>The reference manual is now organized as themed chapters instead of mirroring the root README as one large page. Read it in order when you are onboarding a service, or jump directly to the area you are actively integrating.</p>
-<h2 id="core-chapters">Core chapters</h2>
-<ol>
-<li><a href="/reference/getting-started/">Getting Started</a></li>
-<li><a href="/reference/package-catalog/">Package Catalog</a></li>
-<li><a href="/reference/publishers-and-metrics/">Publishers And Metrics</a></li>
-<li><a href="/reference/ui-manual/">HealthChecks UI Manual</a></li>
-<li><a href="/reference/deployment-and-integrations/">Deployment And Integrations</a></li>
-<li><a href="/reference/tutorials/">Tutorials And Samples</a></li>
-<li><a href="/reference/contributing/">Contributing</a></li>
-</ol>
-<h2 id="supporting-material">Supporting material</h2>
-<ul>
-<li><a href="/reference/readmes/">Project READMEs</a> contains generated pages for package, extension, and sample README files that live outside <code>docs/</code>.</li>
-<li><a href="/guides/">Documentation guides</a> contains operational articles for Docker, webhooks, branding, and Kubernetes.</li>
-</ul>
-<h2 id="scenario-paths">Scenario paths</h2>
-<h3 id="health-checks-only">Health Checks Only</h3>
-<ol>
-<li>Start with <a href="/reference/getting-started/">Getting Started</a> for the minimal registration pattern.</li>
-<li>Continue to <a href="/reference/package-catalog/">Package Catalog</a> to choose the provider package you actually need.</li>
-<li>Use <a href="/reference/readmes/">Project READMEs</a> when you need provider-specific defaults, overloads, or credential examples.</li>
-<li>Open <a href="/reference/publishers-and-metrics/">Publishers And Metrics</a> only if this service also needs outbound telemetry or Prometheus scraping.</li>
-</ol>
-<h3 id="add-the-ui">Add The UI</h3>
-<ol>
-<li>Start with <a href="/reference/getting-started/">Getting Started</a> if the service does not already expose a UI-compatible health endpoint.</li>
-<li>Move to <a href="/reference/ui-manual/">HealthChecks UI Manual</a> for dashboard setup, storage, polling, and configuration.</li>
-<li>Use the operational guides for the next concern: <a href="/ui-docker/">UI Docker image</a>, <a href="/webhooks/">Webhooks and failure notifications</a>, <a href="/styles-branding/">Interface styling and branding</a>.</li>
-<li>Use <a href="/reference/readmes/">Project READMEs</a> as appendix material when a storage provider or extension has extra setup details.</li>
-</ol>
-<h3 id="add-kubernetes">Add Kubernetes</h3>
-<ol>
-<li>Start with <a href="/reference/deployment-and-integrations/">Deployment And Integrations</a> to see the full deployment surface first.</li>
-<li>Read <a href="/kubernetes-liveness/">Liveness and readiness probes</a> if you are only exposing health endpoints to Kubernetes.</li>
-<li>Read <a href="/k8s-operator/">Kubernetes operator</a> and <a href="/k8s-ui-discovery/">Automatic Kubernetes service discovery</a> if the rollout includes HealthChecks UI inside the cluster.</li>
-<li>Return to <a href="/reference/ui-manual/">HealthChecks UI Manual</a> when the cluster deployment also needs UI storage, notification, or dashboard configuration details.</li>
-</ol>
-<h2 id="notes">Notes</h2>
-<p>The generated README catalog remains available as appendix material, but the reference manual is now the primary narrative entry point for this site.
-Use the README appendix when you need package-level edge cases, but start from these scenario paths when you want the supported integration path.</p>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reference Manual | DotNetDiag HealthChecks</title>
+    <meta name="description" content="The primary manual for package selection, UI configuration, deployment, observability, and the generated README appendix." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <section class="hero-block landing-hero">
+    <p class="hero-eyebrow">DotNetDiag HealthChecks</p>
+    <h1>Reference Manual</h1>
+    <p class="hero-subtitle">Start from a supported integration path, then open the README appendix when you need provider-specific defaults, overloads, or sample-specific setup notes.</p>
+    <div class="hero-actions">
+        
+        <a class="button primary" href="/reference/getting-started/">Start Here</a>
+        
+        
+        <a class="button" href="/reference/readmes/">Open README Appendix</a>
+        
+    </div>
+</section>
+
+<p>The generated README appendix remains part of the manual, but it now sits behind the main narrative instead of looking like a second top-level documentation area.</p>
+
+
+
+<section class="landing-section">
+    <div class="section-heading">
+        <p class="section-kicker">Read by scenario</p>
+        <h2>Supported integration paths</h2>
+        
+        <p>Follow the path that matches the rollout you are doing today, then branch into chapter or appendix detail only when needed.</p>
+        
+    </div>
+    <div class="landing-grid">
+        
+        <a class="landing-card" href="/reference/getting-started/">
+            
+            <p class="landing-card-kicker">Minimal service</p>
+            
+            <h3>Health checks only</h3>
+            <p>Register checks, choose provider packages, and expose health endpoints with the smallest footprint.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/ui-manual/">
+            
+            <p class="landing-card-kicker">Dashboard rollout</p>
+            
+            <h3>Add the UI</h3>
+            <p>Configure dashboard storage, polling, notifications, branding, and runtime deployment.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/deployment-and-integrations/">
+            
+            <p class="landing-card-kicker">Cluster rollout</p>
+            
+            <h3>Add Kubernetes</h3>
+            <p>Combine probes, discovery, and operator-based deployment in cluster environments.</p>
+        </a>
+        
+    </div>
+</section>
+
+
+
+
+<section class="landing-section">
+    <div class="section-heading">
+        
+        <p class="section-kicker">Core manual</p>
+        
+        <h2>Read by topic</h2>
+        
+        <p>These chapters form the main narrative path of the manual.</p>
+        
+    </div>
+    <div class="landing-grid">
+        
+        <a class="landing-card" href="/reference/getting-started/">
+            
+            <h3>Getting Started</h3>
+            <p>Minimal registration patterns, endpoint exposure, and the first package decision.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/package-catalog/">
+            
+            <h3>Package Catalog</h3>
+            <p>Choose the right package family before you drill into provider-specific README details.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/publishers-and-metrics/">
+            
+            <h3>Publishers and Metrics</h3>
+            <p>Outbound publishing, Prometheus scraping, and observability-focused integrations.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/ui-manual/">
+            
+            <h3>HealthChecks UI Manual</h3>
+            <p>Dashboard configuration, storage providers, polling cadence, and UI runtime behavior.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/deployment-and-integrations/">
+            
+            <h3>Deployment and Integrations</h3>
+            <p>Kubernetes, Azure DevOps, Docker-adjacent deployment, and operational integration notes.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/tutorials/">
+            
+            <h3>Tutorials and Samples</h3>
+            <p>Walkthroughs and sample-oriented guidance for teams validating an adoption path.</p>
+        </a>
+        
+    </div>
+</section>
+
+<section class="landing-section">
+    <div class="section-heading">
+        
+        <p class="section-kicker">Appendix</p>
+        
+        <h2>README appendix and supporting material</h2>
+        
+        <p>The generated appendix keeps package, extension, and sample README content inside the manual without turning the navigation into a second top-level section.</p>
+        
+    </div>
+    <div class="landing-grid">
+        
+        <a class="landing-card" href="/reference/readmes/">
+            
+            <h3>README Appendix</h3>
+            <p>Browse generated package and extension pages under stable docs URLs.</p>
+        </a>
+        
+        <a class="landing-card" href="/guides/">
+            
+            <h3>Guides</h3>
+            <p>Operational articles for Docker, branding, webhooks, probes, discovery, and the operator.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/contributing/">
+            
+            <h3>Contributing</h3>
+            <p>Contribution notes, repository expectations, and workflow guidance for changes.</p>
+        </a>
+        
+    </div>
+</section>
+
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

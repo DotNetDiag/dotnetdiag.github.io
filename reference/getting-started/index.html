@@ -1,10 +1,43 @@
-<p>This chapter replaces the quick-start portion of the repository README and gives you the smallest reliable setup for a service that exposes health endpoints.</p>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Getting Started | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+    <section class="page-header">
+        <p class="page-kicker">DotNetDiag HealthChecks</p>
+        <h1>Getting Started</h1>
+        
+    </section>
+    
+
+    <div class="page-content">
+        <p>This chapter replaces the quick-start portion of the repository README and gives you the smallest reliable setup for a service that exposes health endpoints.</p>
 <h2 id="choose-the-right-package">Choose the right package</h2>
 <ul>
 <li>Use <code>DotNetDiag.HealthChecks.&lt;Provider&gt;</code> when you need a dependency-specific check such as SQL Server, Redis, MySQL, Azure Service Bus, or Amazon S3.</li>
 <li>Use <code>DotNetDiag.HealthChecks.UI</code> when you want a dashboard that polls one or more health endpoints and stores history.</li>
 <li>Use <code>DotNetDiag.HealthChecks.Publisher.*</code> or <code>DotNetDiag.HealthChecks.Prometheus.Metrics</code> when you need push or scrape integrations.</li>
-<li>Use the <a href="/reference/package-catalog/">package catalog</a> to choose a package family, then use <a href="/reference/readmes/">Project READMEs</a> for provider-specific defaults and overloads.</li>
+<li>Use the <a href="/reference/package-catalog/">package catalog</a> to choose a package family, then use the <a href="/reference/readmes/">README appendix</a> for provider-specific defaults and overloads.</li>
 </ul>
 <h2 id="install-a-package">Install a package</h2>
 <pre><code class="language-bash">dotnet add package DotNetDiag.HealthChecks.SqlServer
@@ -57,3 +90,15 @@ app.MapHealthChecks(&quot;/health/ready&quot;, new HealthCheckOptions
 <li>Continue with <a href="/reference/publishers-and-metrics/">publishers and metrics</a> if you need telemetry export.</li>
 <li>Continue with <a href="/reference/deployment-and-integrations/">deployment and integrations</a> for Docker, Kubernetes, Azure DevOps, and protected UI setups.</li>
 </ul>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>
