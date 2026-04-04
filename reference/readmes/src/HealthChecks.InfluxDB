@@ -1,0 +1,34 @@
+<blockquote>
+<p>Generated from <a href="https://github.com/DotNetDiag/HealthChecks/blob/master/src/HealthChecks.InfluxDB/README.md">src/HealthChecks.InfluxDB/README.md</a>.</p>
+</blockquote>
+<h1 id="influxdb-health-check">InfluxDB Health Check</h1>
+<p>This health check verifies the ability to communicate with a InfluxDB server.</p>
+<h2 id="example-usage">Example Usage</h2>
+<p>With all of the following examples, you can additionally add the following parameters:</p>
+<ul>
+<li><code>name</code>: The health check name. Default if not specified is <code>influxdb</code>.</li>
+<li><code>failureStatus</code>: The <code>HealthStatus</code> that should be reported when the health check fails. Default is <code>HealthStatus.Unhealthy</code>.</li>
+<li><code>tags</code>: A list of tags that can be used to filter sets of health checks.</li>
+<li><code>timeout</code>: A <code>System.TimeSpan</code> representing the timeout of the check.</li>
+</ul>
+<h3 id="basic">Basic</h3>
+<p>This will create a new <code>InfluxDBClient</code> and reuse it on every request to get the health check result. Use
+the extension method where you provide the <code>Uri</code> to connect with.</p>
+<pre><code class="language-csharp">  public void ConfigureServices(IServiceCollection services)
+   {
+    services.AddHealthChecks()
+      .AddInfluxDB(&quot;http://localhost:8086/?org=iotsharp&amp;bucket=iotsharp-bucket&amp;token=iotsharp-token&quot;);
+    }
+</code></pre>
+<p>If you are sharing a single <code>InfluxDBClient</code> for every time a health check is requested,
+you must ensure automatic recovery is enabled so that the <code>InfluxDBClient</code> can be re-established if lost.</p>
+<pre><code class="language-csharp">    public void ConfigureServices(IServiceCollection services)
+    {
+      services.AddSingleton&lt;InfluxDBClient&gt;(sp =&gt;
+      {
+        return InfluxDBClientFactory.Create(&quot;http://localhost:8086/?org=iotsharp&amp;bucket=iotsharp-bucket&amp;token=iotsharp-token&quot;);
+      })
+      .AddHealthChecks()
+      .AddInfluxDB();
+    }
+</code></pre>

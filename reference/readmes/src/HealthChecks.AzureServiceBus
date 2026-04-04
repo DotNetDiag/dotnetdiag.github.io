@@ -1,0 +1,7 @@
+<blockquote>
+<p>Generated from <a href="https://github.com/DotNetDiag/HealthChecks/blob/master/src/HealthChecks.AzureServiceBus/README.md">src/HealthChecks.AzureServiceBus/README.md</a>.</p>
+</blockquote>
+<h2 id="azure-service-bus-health-check">Azure Service Bus Health Check</h2>
+<p>This health check verifies the ability to communicate with <a href="https://azure.microsoft.com/services/service-bus/">Azure Service Bus</a>.</p>
+<h3 id="breaking-changes">Breaking changes</h3>
+<p>In the prior releases, <code>AzureEventHubHealthCheck</code> was a part of <code>DotNetDiag.HealthChecks.AzureServiceBus</code> package. It had a dependency on not just <code>Azure.Messaging.ServiceBus</code>, but also <code>Azure.Messaging.EventHubs</code>. The packages have been split to avoid bringing unnecessary dependencies. The name of the new EveHub package is <a href="https://www.nuget.org/packages/DotNetDiag.HealthChecks.Azure.Messaging.EventHubs">DotNetDiag.HealthChecks.Azure.Messaging.EventHubs</a>.</p>
