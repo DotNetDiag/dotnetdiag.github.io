@@ -29,9 +29,16 @@
 <p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.ClickHouse">src/HealthChecks.ClickHouse</a>.</p>
 </blockquote>
 <h2 id="clickhouse-health-check">ClickHouse Health Check</h2>
-<p>This health check verifies the ability to communicate with <a href="https://www.clickhouse.com/">ClickHouse</a>. It uses the <a href="https://www.nuget.org/packages/ClickHouse.Client">ClickHouse.Client</a> library.</p>
-<h2 id="recommended-approach">Recommended approach</h2>
-<p>When registering the ClickHouse health check, it is <a href="https://github.com/DarkWanderer/ClickHouse.Client/wiki/Connection-lifetime-&amp;-pooling#recommendations">recommended</a> to use <code>IHttpClientFactory</code> or a static instance of <code>HttpClient</code> to manage connections.</p>
+<p>This health check verifies the ability to communicate with <a href="https://www.clickhouse.com/">ClickHouse</a>. It uses the <a href="https://www.nuget.org/packages/ClickHouse.Driver">ClickHouse.Driver</a> library.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="language-csharp">void Configure(IServiceCollection services)
+{
+    services.AddHealthChecks()
+        .AddClickHouse(&quot;Host=ch;Username=default;Password=test;Database=default&quot;);
+}
+</code></pre>
+<h2 id="advanced-usage">Advanced usage</h2>
+<p>If you want to manage the HTTP connection manually (e.g. via <code>IHttpClientFactory</code>), you can use the factory overload:</p>
 <pre><code class="language-csharp">void Configure(IServiceCollection services)
 {
     services.AddHttpClient(&quot;ClickHouseClient&quot;);

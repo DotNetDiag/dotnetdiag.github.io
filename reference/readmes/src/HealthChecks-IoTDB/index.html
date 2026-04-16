@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HealthChecks.IoTDB | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.IoTDB">src/HealthChecks.IoTDB</a>.</p>
+</blockquote>
+<h2 id="apache-iotdb-health-check">Apache IoTDB Health Check</h2>
+<p>This health check verifies the ability to communicate with <a href="https://iotdb.apache.org/">Apache IoTDB</a>. It uses the <a href="https://www.nuget.org/packages/Apache.IoTDB.Data">Apache.IoTDB.Data</a> library.</p>
+<h2 id="nuget">NuGet</h2>
+<p><a href="https://www.nuget.org/packages/DotNetDiag.HealthChecks.IoTDB"><img src="https://img.shields.io/nuget/v/DotNetDiag.HealthChecks.IoTDB" alt="Nuget" /></a></p>
+<pre><code class="language-shell">dotnet add package DotNetDiag.HealthChecks.IoTDB
+</code></pre>
+<h2 id="example-usage">Example Usage</h2>
+<p>With all of the following examples, you can additionally add the following parameters:</p>
+<ul>
+<li><code>name</code>: The health check name. Default if not specified is <code>iotdb</code>.</li>
+<li><code>failureStatus</code>: The <code>HealthStatus</code> that should be reported when the health check fails. Default is <code>HealthStatus.Unhealthy</code>.</li>
+<li><code>tags</code>: A list of tags that can be used to filter sets of health checks.</li>
+<li><code>timeout</code>: A <code>System.TimeSpan</code> representing the timeout of the check.</li>
+</ul>
+<h3 id="use-a-connection-string">Use a connection string</h3>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.Services
+        .AddHealthChecks()
+        .AddIoTDB(&quot;DataSource=localhost;Port=6667;Username=root;Password=root&quot;);
+}
+</code></pre>
+<h3 id="use-iotdbhealthcheckoptions-for-advanced-configuration">Use <code>IoTDBHealthCheckOptions</code> for advanced configuration</h3>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.Services
+        .AddHealthChecks()
+        .AddIoTDB(new IoTDBHealthCheckOptions
+        {
+            ConnectionString = &quot;DataSource=localhost;Port=6667;Username=root;Password=root&quot;,
+            EnableRpcCompression = true
+        });
+}
+</code></pre>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

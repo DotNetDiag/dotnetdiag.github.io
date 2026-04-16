@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HealthChecks.NTPServer | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.NTPServer">src/HealthChecks.NTPServer</a>.</p>
+</blockquote>
+<h2 id="ntp-server-health-check">NTP Server Health Check</h2>
+<p>This health check verifies that the local system clock is synchronized with an <a href="https://en.wikipedia.org/wiki/Network_Time_Protocol">NTP</a> server. It queries the server via UDP and compares the returned time to the local clock. The result is <code>Healthy</code>, <code>Degraded</code>, or <code>Unhealthy</code> based on a configurable tolerance.</p>
+<h2 id="nuget">NuGet</h2>
+<p><a href="https://www.nuget.org/packages/DotNetDiag.HealthChecks.NTPServer"><img src="https://img.shields.io/nuget/v/DotNetDiag.HealthChecks.NTPServer" alt="Nuget" /></a></p>
+<pre><code class="language-shell">dotnet add package DotNetDiag.HealthChecks.NTPServer
+</code></pre>
+<h2 id="example-usage">Example Usage</h2>
+<p>With all of the following examples, you can additionally add the following parameters:</p>
+<ul>
+<li><code>name</code>: The health check name. Default if not specified is <code>ntpserver</code>.</li>
+<li><code>failureStatus</code>: The <code>HealthStatus</code> that should be reported when the health check fails. Default is <code>HealthStatus.Unhealthy</code>.</li>
+<li><code>tags</code>: A list of tags that can be used to filter sets of health checks.</li>
+<li><code>timeout</code>: A <code>System.TimeSpan</code> representing the timeout of the check.</li>
+</ul>
+<h3 id="use-default-settings-pool.ntp.org-10-second-tolerance">Use default settings (<code>pool.ntp.org</code>, 10-second tolerance)</h3>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.Services
+        .AddHealthChecks()
+        .AddNTPServer();
+}
+</code></pre>
+<h3 id="specify-a-custom-ntp-server-and-tolerance">Specify a custom NTP server and tolerance</h3>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.Services
+        .AddHealthChecks()
+        .AddNTPServer(options =&gt;
+        {
+            options.NtpServer = &quot;time.windows.com&quot;;
+            options.ToleranceSeconds = 5.0;
+        });
+}
+</code></pre>
+<h3 id="specify-a-custom-ntp-server-port">Specify a custom NTP server port</h3>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.Services
+        .AddHealthChecks()
+        .AddNTPServer(options =&gt;
+        {
+            options.NtpServer = &quot;time.internal.example&quot;;
+            options.NtpPort = 10123;
+        });
+}
+</code></pre>
+<h3 id="health-status-thresholds">Health status thresholds</h3>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Returned status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\|offset\|</code> ≤ <code>ToleranceSeconds</code></td>
+<td><code>Healthy</code></td>
+</tr>
+<tr>
+<td><code>ToleranceSeconds</code> &lt; <code>\|offset\|</code> ≤ <code>ToleranceSeconds × 2</code></td>
+<td><code>Degraded</code></td>
+</tr>
+<tr>
+<td><code>\|offset\|</code> &gt; <code>ToleranceSeconds × 2</code></td>
+<td><code>FailureStatus</code> (default <code>Unhealthy</code>)</td>
+</tr>
+</tbody>
+</table>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>
