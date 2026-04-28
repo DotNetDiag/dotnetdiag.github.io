@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DotNetDiag HealthChecks | DotNetDiag HealthChecks</title>
-    <meta name="description" content="Health checks for services, dashboards, and Kubernetes workloads." />
+    <meta name="description" content="Health checks for .NET services, covering 50+ providers, a dashboard UI, and Kubernetes-ready probes." />
     <link rel="stylesheet" href="/assets/css/site.css" />
 </head>
 <body>
@@ -25,51 +25,165 @@
     
 
     <div class="page-content">
-        <section class="hero-block">
+        <section class="hero-block landing-hero">
     <p class="hero-eyebrow">DotNetDiag HealthChecks</p>
-    <h1>DotNetDiag HealthChecks</h1>
-    <p class="hero-subtitle">Health checks for services, dashboards, and Kubernetes workloads.</p>
-    
-    <p class="hero-note">JekyllNet sample-site based local template with GitHub Pages style build output.</p>
-    
+    <h1>Health checks for every .NET service</h1>
+    <p class="hero-subtitle">Liveness and readiness probes for 50+ databases, queues, cloud services, and HTTP dependencies, with an optional dashboard UI and a Kubernetes operator.</p>
     <div class="hero-actions">
         
-        <a class="button primary" href="/reference/">Open Manual</a>
+        <a class="button primary" href="/reference/getting-started/">Get Started</a>
         
         
-        <a class="button" href="/guides/">Browse Guides</a>
+        <a class="button" href="/reference/package-catalog/">Browse Packages</a>
         
     </div>
 </section>
 
-> Maintained by DotNetDiag Maintainers / Project documentation
+<blockquote>
+<p><strong>A community-maintained continuation of <a href="https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks">Xabaril/AspNetCore.Diagnostics.HealthChecks</a>.</strong> That project, shepherded by <a href="https://github.com/Xabaril">Xabaril</a> and its many contributors, shaped the modern .NET health-check ecosystem. With upstream maintenance paused, DotNetDiag carries the work forward, with deep thanks to every original author whose code and APIs this fork continues.</p>
+</blockquote>
+<h2 id="second-quickstart">60-second quickstart</h2>
+<p>Install a provider package:</p>
+<pre><code class="language-bash">dotnet add package DotNetDiag.HealthChecks.SqlServer
+</code></pre>
+<p>Register the check and map the endpoint in <code>Program.cs</code>:</p>
+<pre><code class="language-csharp">builder.Services.AddHealthChecks()
+    .AddSqlServer(builder.Configuration.GetConnectionString(&quot;Default&quot;));
 
-DotNetDiag HealthChecks is the actively maintained fork of AspNetCore.Diagnostics.HealthChecks. This site now uses a local template adapted from the JekyllNet sample-site so the docs experience is predictable in GitHub Pages style builds and in local preview.
+app.MapHealthChecks(&quot;/health&quot;);
+</code></pre>
+<p>That's it. <code>GET /health</code> now returns <code>Healthy</code> or <code>Unhealthy</code>. Add the UI, more providers, or Kubernetes probes from the paths below.</p>
 
-## Start here
 
-1. [Health checks only](/reference/): Choose provider packages, register checks, and expose liveness and readiness endpoints.
-2. [Add the UI](/reference/ui-manual/): Configure the dashboard, storage providers, polling cadence, and failure notifications.
-3. [Add Kubernetes](/reference/deployment-and-integrations/): Deploy the UI, enable operator workflows, and integrate probes and discovery in-cluster.
 
-## Site sections
+<section class="landing-section">
+    <div class="section-heading">
+        <p class="section-kicker">Pick your path</p>
+        <h2>Three ways to roll out</h2>
+        
+        <p>Most teams start with the minimal service and layer on the UI or Kubernetes pieces as the rollout grows.</p>
+        
+    </div>
+    <div class="landing-grid">
+        
+        <a class="landing-card" href="/reference/getting-started/">
+            
+            <p class="landing-card-kicker">Minimal service</p>
+            
+            <h3>Health checks only</h3>
+            <p>Register checks, choose provider packages, and expose /health endpoints in a few lines.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/ui-manual/">
+            
+            <p class="landing-card-kicker">Dashboard rollout</p>
+            
+            <h3>Add the UI</h3>
+            <p>Stand up the HealthChecks UI for storage, polling, branding, and failure notifications.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/deployment-and-integrations/">
+            
+            <p class="landing-card-kicker">Cluster rollout</p>
+            
+            <h3>Add Kubernetes</h3>
+            <p>Probes, service discovery, and the operator for cluster-managed deployments.</p>
+        </a>
+        
+    </div>
+</section>
 
-- [Documentation](/guides/) for Docker, UI, webhook, and Kubernetes guides.
-- [使用手册](/reference/) for setup, package selection, UI, publishers, deployment chapters, and the generated README appendix.
-- [News](/news/) for documentation updates and the historical UI changelog.
 
-## Quick install
 
-```bash
-dotnet add package DotNetDiag.HealthChecks.SqlServer
-```
 
-## Coverage
+<section class="landing-section">
+    <div class="section-heading">
+        
+        <p class="section-kicker">Popular checks</p>
+        
+        <h2>Common integrations</h2>
+        
+        <p>Hand-picked starting points. The full catalog has 50+ packages.</p>
+        
+    </div>
+    <div class="landing-grid">
+        
+        <a class="landing-card" href="/reference/package-catalog/">
+            
+            <h3>SQL Server</h3>
+            <p>Probe SQL Server availability and query responsiveness.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/package-catalog/">
+            
+            <h3>PostgreSQL</h3>
+            <p>Check PostgreSQL connectivity through Npgsql.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/package-catalog/">
+            
+            <h3>Redis</h3>
+            <p>Verify Redis responsiveness for cached and session data.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/package-catalog/">
+            
+            <h3>RabbitMQ</h3>
+            <p>Confirm broker reachability before processing messages.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/package-catalog/">
+            
+            <h3>HTTP endpoints</h3>
+            <p>Probe upstream URIs and external HTTP dependencies.</p>
+        </a>
+        
+        <a class="landing-card" href="/reference/package-catalog/">
+            
+            <h3>Kubernetes</h3>
+            <p>Surface cluster service state for liveness and readiness probes.</p>
+        </a>
+        
+    </div>
+</section>
 
-- 50+ health check packages for infrastructure and platform dependencies.
-- HealthChecks UI guidance for dashboard deployment, branding, notifications, and configuration.
-- Kubernetes articles for probes, operator deployment, and service discovery.
-- Themed reference chapters plus generated per-project README pages for detailed package notes.
+<section class="landing-section">
+    <div class="section-heading">
+        
+        <p class="section-kicker">Keep going</p>
+        
+        <h2>Deeper references</h2>
+        
+    </div>
+    <div class="landing-grid">
+        
+        <a class="landing-card" href="/reference/">
+            
+            <h3>Reference Manual</h3>
+            <p>Setup, package selection, UI, publishers, deployment, and the generated package index.</p>
+        </a>
+        
+        <a class="landing-card" href="/guides/">
+            
+            <h3>Guides</h3>
+            <p>Task-oriented articles for Docker, branding, webhooks, probes, and the operator.</p>
+        </a>
+        
+        <a class="landing-card" href="/news/">
+            
+            <h3>News</h3>
+            <p>Documentation updates and the historical UI changelog.</p>
+        </a>
+        
+        <a class="landing-card" href="/about/">
+            
+            <h3>About the fork</h3>
+            <p>Why this fork exists, what it continues from Xabaril, and how to contribute.</p>
+        </a>
+        
+    </div>
+</section>
+
 
     </div>
 </main>
