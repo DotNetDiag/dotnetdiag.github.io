@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HealthChecks.IbmDb2 | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.IbmDb2">src/HealthChecks.IbmDb2</a>.</p>
+</blockquote>
+<h2 id="ibm-db2-health-check">IBM Db2 Health Check</h2>
+<p>This health check verifies that an IBM Db2 database can be reached and can execute a lightweight query.</p>
+<h3 id="defaults">Defaults</h3>
+<p>By default, the health check opens a Db2 connection and executes <code>SELECT 1 FROM SYSIBM.SYSDUMMY1</code>.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddIbmDb2(&quot;Server=db2.example.com:50000;Database=testdb;UID=db2inst1;PWD=password;&quot;);
+}
+</code></pre>
+<h3 id="custom-query-and-connection-configuration">Custom query and connection configuration</h3>
+<p>Use a custom query or configure the <code>DB2Connection</code> before it opens when your environment needs provider-specific settings.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddIbmDb2(
+        &quot;Server=db2.example.com:50000;Database=testdb;UID=db2inst1;PWD=password;&quot;,
+        healthQuery: &quot;SELECT CURRENT DATE FROM SYSIBM.SYSDUMMY1&quot;,
+        configure: connection =&gt;
+        {
+            // Adjust DB2Connection settings here before the connection opens.
+        });
+}
+</code></pre>
+<h3 id="platform-specific-ibm-provider-packages">Platform-specific IBM provider packages</h3>
+<p>IBM ships the Db2 .NET provider as platform-specific NuGet packages. This health check targets .NET 8 and .NET 10 and references the Linux AMD64 provider package used by the repository CI. Applications running on other platforms should follow IBM's package guidance for the matching provider package.</p>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

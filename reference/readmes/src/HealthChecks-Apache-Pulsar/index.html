@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HealthChecks.Apache.Pulsar | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.Apache.Pulsar">src/HealthChecks.Apache.Pulsar</a>.</p>
+</blockquote>
+<h2 id="apache-pulsar-health-check">Apache Pulsar Health Check</h2>
+<p>This health check verifies <a href="https://pulsar.apache.org/">Apache Pulsar</a> broker and admin endpoint availability.</p>
+<p>The broker check uses the configured <code>IPulsarClient</code> and publishes a small health check message to a configured topic. The admin check calls the Pulsar admin health endpoint, <code>/admin/v2/brokers/health</code>, and treats successful HTTP responses as healthy.</p>
+<pre><code class="language-csharp">using DotPulsar;
+using DotPulsar.Abstractions;
+
+builder.Services.AddSingleton&lt;IPulsarClient&gt;(_ =&gt;
+    PulsarClient.Builder()
+        .ServiceUrl(new Uri(&quot;pulsar://localhost:6650&quot;))
+        .Build());
+
+builder.Services
+    .AddHealthChecks()
+    .AddPulsar()
+    .AddPulsarAdmin(new Uri(&quot;http://localhost:8080&quot;));
+</code></pre>
+<p>You can configure the broker topic and admin endpoint:</p>
+<pre><code class="language-csharp">builder.Services
+    .AddHealthChecks()
+    .AddPulsar(
+        optionsFactory: _ =&gt; new PulsarHealthCheckOptions
+        {
+            Topic = &quot;persistent://public/default/healthchecks&quot;
+        })
+    .AddPulsarAdmin(
+        new Uri(&quot;http://localhost:8080&quot;),
+        options =&gt; options.HealthEndpoint = &quot;/admin/v2/brokers/health&quot;);
+</code></pre>
+<p><code>PulsarHealthCheck</code> does not create or dispose <code>IPulsarClient</code> instances. Register <code>IPulsarClient</code> as a singleton so the application owns the client lifetime.</p>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

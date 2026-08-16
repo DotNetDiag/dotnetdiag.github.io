@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HealthChecks.Vault | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.Vault">src/HealthChecks.Vault</a>.</p>
+</blockquote>
+<h2 id="vault-health-check">Vault Health Check</h2>
+<p>This health check verifies a <a href="https://www.vaultproject.io/">HashiCorp Vault</a> server by calling its <code>/v1/sys/health</code> endpoint and evaluating the Vault node state reported in the response.</p>
+<h3 id="defaults">Defaults</h3>
+<p>By default, only an active, initialized, and unsealed Vault node is reported as healthy.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddVault(new Uri(&quot;http://localhost:8200&quot;));
+}
+</code></pre>
+<h3 id="accepting-standby-nodes">Accepting standby nodes</h3>
+<p>Vault standby nodes normally return HTTP 429 from <code>/v1/sys/health</code>. If your application can use standby or forwarded Vault requests, add the standby statuses that should be accepted.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddVault(
+        new Uri(&quot;http://localhost:8200&quot;),
+        options =&gt;
+        {
+            options.HealthyStatuses.Add(VaultHealthStatus.Standby);
+            options.HealthyStatuses.Add(VaultHealthStatus.PerformanceStandby);
+            options.HealthyStatuses.Add(VaultHealthStatus.DisasterRecoverySecondary);
+        });
+}
+</code></pre>
+<h3 id="authentication-and-request-customization">Authentication and request customization</h3>
+<p>The Vault health endpoint is commonly exposed without a token, but proxies or custom Vault policies may require request headers.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddVault(
+        new Uri(&quot;http://localhost:8200&quot;),
+        options =&gt;
+        {
+            options.ConfigureRequest = request =&gt;
+                request.Headers.Add(&quot;X-Vault-Token&quot;, &quot;vault-token&quot;);
+        });
+}
+</code></pre>
+<h3 id="custom-endpoint-path">Custom endpoint path</h3>
+<p>Use <code>HealthEndpointPath</code> when Vault is routed behind a reverse proxy or when query string options such as <code>standbyok=true</code> are required.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddVault(
+        new Uri(&quot;https://gateway.example.com&quot;),
+        options =&gt; options.HealthEndpointPath = &quot;/vault/v1/sys/health?standbyok=true&quot;);
+}
+</code></pre>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

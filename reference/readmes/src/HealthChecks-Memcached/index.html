@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HealthChecks.Memcached | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.Memcached">src/HealthChecks.Memcached</a>.</p>
+</blockquote>
+<h2 id="memcached-health-check">Memcached Health Check</h2>
+<p>This health check verifies that Memcached can store, read, and remove a short-lived cache item.</p>
+<h3 id="basic-usage">Basic usage</h3>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddMemcached(&quot;localhost&quot;);
+}
+</code></pre>
+<h3 id="custom-port">Custom port</h3>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddMemcached(&quot;memcached&quot;, 11211);
+}
+</code></pre>
+<h3 id="advanced-client-options">Advanced client options</h3>
+<p>Configure the underlying Enyim Memcached client options when the check needs multiple servers or custom socket settings.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddMemcached(options =&gt;
+    {
+        options.AddServer(&quot;memcached-a&quot;, 11211);
+        options.AddServer(&quot;memcached-b&quot;, 11211);
+        options.ClientOptions.SocketPool.ConnectionTimeout = TimeSpan.FromSeconds(3);
+    });
+}
+</code></pre>
+<h3 id="existing-client">Existing client</h3>
+<p>Use an existing <code>IMemcachedClient</code> when your application already owns the client lifetime or needs advanced Enyim configuration.</p>
+<pre><code class="language-csharp">using Enyim.Caching;
+
+void Configure(IServiceCollection services)
+{
+    services.AddSingleton&lt;IMemcachedClient&gt;(/* create or register your Enyim client */);
+
+    services.AddHealthChecks()
+        .AddMemcached();
+}
+</code></pre>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

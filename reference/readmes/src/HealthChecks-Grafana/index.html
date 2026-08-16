@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Grafana Health Check | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.Grafana">src/HealthChecks.Grafana</a>.</p>
+</blockquote>
+<h1 id="grafana-health-check">Grafana Health Check</h1>
+<p>This health check verifies a <a href="https://grafana.com/grafana/">Grafana</a> instance through the Grafana <code>/api/health</code> endpoint.</p>
+<h2 id="defaults">Defaults</h2>
+<p>By default, the Grafana health endpoint is checked and the <code>database</code> field returned by Grafana must report <code>ok</code>.</p>
+<pre><code class="language-csharp">void ConfigureServices(IServiceCollection services)
+{
+    services
+        .AddHealthChecks()
+        .AddGrafana(new Uri(&quot;https://grafana.example.com&quot;));
+}
+</code></pre>
+<h2 id="custom-endpoint-or-request">Custom endpoint or request</h2>
+<p>If Grafana is exposed through a reverse proxy path, configure <code>HealthEndpointPath</code>. For authenticated or proxied setups, use <code>ConfigureRequest</code> or configure the named HTTP client.</p>
+<pre><code class="language-csharp">using HealthChecks.Grafana;
+using System.Net.Http.Headers;
+
+void ConfigureServices(IServiceCollection services)
+{
+    services
+        .AddHealthChecks()
+        .AddGrafana(new Uri(&quot;https://grafana.example.com&quot;), options =&gt;
+        {
+            options.HealthEndpointPath = &quot;/grafana/api/health&quot;;
+            options.ConfigureRequest = request =&gt;
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue(&quot;Bearer&quot;, &quot;token&quot;);
+            };
+        });
+}
+</code></pre>
+<h2 id="customization">Customization</h2>
+<p>You can additionally add the following parameters:</p>
+<ul>
+<li><code>clientFactory</code>: A factory method to provide an <code>HttpClient</code> instance.</li>
+<li><code>optionsFactory</code>: A factory method to provide a <code>GrafanaHealthCheckOptions</code> instance.</li>
+<li><code>name</code>: The health check name. The default is <code>grafana</code>.</li>
+<li><code>failureStatus</code>: The <code>HealthStatus</code> that should be reported when the health check fails. Default is <code>HealthStatus.Unhealthy</code>.</li>
+<li><code>tags</code>: A list of tags that can be used to filter sets of health checks.</li>
+<li><code>timeout</code>: A <code>System.TimeSpan</code> representing the timeout of the check.</li>
+<li><code>configureClient</code>: A callback to configure the named Grafana health check <code>HttpClient</code>.</li>
+<li><code>configurePrimaryHttpMessageHandler</code>: A callback to configure the named Grafana health check HTTP message handler.</li>
+</ul>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

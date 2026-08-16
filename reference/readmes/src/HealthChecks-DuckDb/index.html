@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HealthChecks.DuckDb | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.DuckDb">src/HealthChecks.DuckDb</a>.</p>
+</blockquote>
+<h2 id="duckdb-health-check">DuckDB Health Check</h2>
+<p>This health check verifies that a DuckDB database can be opened and can execute a lightweight SQL query.</p>
+<h3 id="defaults">Defaults</h3>
+<p>By default, the package opens a DuckDB connection and executes <code>SELECT 1;</code>.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddDuckDb(&quot;Data Source=analytics.duckdb&quot;);
+}
+</code></pre>
+<p>Use DuckDB's in-memory database when you only need to validate that the embedded DuckDB engine can start.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddDuckDb(&quot;Data Source=:memory:&quot;);
+}
+</code></pre>
+<h3 id="custom-query">Custom query</h3>
+<p>Use a custom query when your application needs to validate a specific table, view, extension, or permission.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddDuckDb(
+        &quot;Data Source=analytics.duckdb&quot;,
+        healthQuery: &quot;SELECT COUNT(*) FROM healthcheck_marker&quot;);
+}
+</code></pre>
+<h3 id="advanced-options">Advanced options</h3>
+<p>Use <code>DuckDbHealthCheckOptions</code> when you need to customize the connection before it opens or build a custom health check result from the query result.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddDuckDb(new DuckDbHealthCheckOptions(&quot;Data Source=analytics.duckdb&quot;)
+    {
+        CommandText = &quot;SELECT 1;&quot;,
+        HealthCheckResultBuilder = result =&gt; HealthCheckResult.Healthy($&quot;DuckDB returned {result}&quot;)
+    });
+}
+</code></pre>
+<h3 id="target-frameworks">Target frameworks</h3>
+<p>DuckDB's .NET provider targets .NET 8 and later. This health check package targets .NET 8 and .NET 10 and references <code>DuckDB.NET.Data.Full</code> so supported DuckDB native binaries are available with the package.</p>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

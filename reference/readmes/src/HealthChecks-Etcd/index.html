@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HealthChecks.Etcd | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.Etcd">src/HealthChecks.Etcd</a>.</p>
+</blockquote>
+<h2 id="etcd-health-check">etcd Health Check</h2>
+<p>This health check verifies that an etcd v3 server can be reached and responds to a status request.</p>
+<h3 id="defaults">Defaults</h3>
+<p>By default, the package creates an <code>EtcdClient</code> for the configured endpoint and calls <code>StatusAsync</code>.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddEtcd(&quot;http://localhost:2379&quot;);
+}
+</code></pre>
+<h3 id="custom-client-settings">Custom client settings</h3>
+<p>Configure <code>EtcdHealthCheckOptions</code> when the endpoint uses a non-default port or custom gRPC channel settings.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddEtcd(
+        &quot;https://etcd.example.com&quot;,
+        options =&gt;
+        {
+            options.Port = 2379;
+            options.ConfigureSslOptions = ssl =&gt; ssl.TargetHost = &quot;etcd.example.com&quot;;
+        });
+}
+</code></pre>
+<h3 id="existing-client">Existing client</h3>
+<p>Register an <code>EtcdClient</code> when your application already owns the client lifetime or needs advanced authentication configuration.</p>
+<pre><code class="language-csharp">using dotnet_etcd;
+
+void Configure(IServiceCollection services)
+{
+    services.AddSingleton(new EtcdClient(&quot;http://localhost:2379&quot;));
+
+    services.AddHealthChecks()
+        .AddEtcd(sp =&gt; sp.GetRequiredService&lt;EtcdClient&gt;());
+}
+</code></pre>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

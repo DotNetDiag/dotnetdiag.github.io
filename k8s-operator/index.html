@@ -67,18 +67,10 @@
 <td>name</td>
 <td style="text-align: left;">Name of the healthcheck resource</td>
 </tr>
-<tr>
-<td>scope</td>
-<td style="text-align: left;">Cluster / Namespaced</td>
-</tr>
-<tr>
-<td>servicesLabel</td>
-<td style="text-align: left;">The label the operator service watcher will use to detected healthchecks endpoints</td>
-</tr>
 </tbody>
 </table>
 <h3 id="scope-definition-cluster-or-namespaced">Scope definition (Cluster or Namespaced)</h3>
-<p>The scope field (Cluster or Namespaced) is mandatory and will specify to the operator whether it should watch for healthchecks services in the
+<p>The scope field (Cluster or Namespaced) specifies to the operator whether it should watch for healthchecks services in the
 same namespace where the UI resource is created or watch to all services in all namespaces.</p>
 <p>If you wan't to have different UI's for different namespaced services you should use <strong>Namespaced</strong></p>
 <p>If you wan't to have a single UI that monitors all the healthchecks from the cluster you should use <strong>Cluster</strong></p>
@@ -94,6 +86,16 @@ same namespace where the UI resource is created or watch to all services in all 
 </thead>
 <tbody>
 <tr>
+<td>scope</td>
+<td style="text-align: left;">Cluster / Namespaced</td>
+<td>Cluster</td>
+</tr>
+<tr>
+<td>servicesLabel</td>
+<td style="text-align: left;">The label the operator service watcher will use to detect endpoints</td>
+<td>HealthChecks</td>
+</tr>
+<tr>
 <td>serviceType</td>
 <td style="text-align: left;">How the UI should be published (ClusterIP, LoadBalancer or NodePort)</td>
 <td>ClusterIP</td>
@@ -101,7 +103,7 @@ same namespace where the UI resource is created or watch to all services in all 
 <tr>
 <td>portNumber</td>
 <td style="text-align: left;">What port will be used to expose the UI service</td>
-<td>80</td>
+<td>8080</td>
 </tr>
 <tr>
 <td>uiPath</td>
@@ -131,7 +133,7 @@ same namespace where the UI resource is created or watch to all services in all 
 <tr>
 <td>healthChecksPath</td>
 <td style="text-align: left;">Path where the UI will collect health from endpoints</td>
-<td>/health (Can be overriden with a service annotation)</td>
+<td>health (Can be overriden with a service annotation)</td>
 </tr>
 <tr>
 <td>healthChecksScheme</td>
@@ -141,7 +143,7 @@ same namespace where the UI resource is created or watch to all services in all 
 <tr>
 <td>image</td>
 <td style="text-align: left;">Image to be used by the UI</td>
-<td>xabarilcoding/healthchecksui:latest</td>
+<td>Operator configured default UI image</td>
 </tr>
 <tr>
 <td>imagePullPolicy</td>
@@ -151,6 +153,21 @@ same namespace where the UI resource is created or watch to all services in all 
 <tr>
 <td>stylesheetContent</td>
 <td style="text-align: left;">css content used to brand the UI</td>
+<td>none</td>
+</tr>
+<tr>
+<td>livenessProbe</td>
+<td style="text-align: left;">UI liveness probe object (path, delay, period, timeout, failureThreshold)</td>
+<td>/healthz</td>
+</tr>
+<tr>
+<td>readinessProbe</td>
+<td style="text-align: left;">UI readiness probe object (path, delay, period, timeout, failureThreshold)</td>
+<td>/healthz</td>
+</tr>
+<tr>
+<td>resources</td>
+<td style="text-align: left;">UI container resources object with requests and limits</td>
 <td>none</td>
 </tr>
 <tr>
@@ -175,7 +192,8 @@ same namespace where the UI resource is created or watch to all services in all 
 </tr>
 </tbody>
 </table>
-<p>The container image examples in this section still use the currently published <code>xabarilcoding/*</code> namespace.</p>
+<p>Container image examples use GitHub Container Registry under the current GitHub organization namespace.</p>
+<p>The operator deployment can override the default UI image for all generated HealthCheck resources with the <code>HealthChecksOperator__DefaultUIImage</code> environment variable. A per-resource <code>spec.image</code> still takes precedence.</p>
 <h2 id="sample-healthchecks-operator-tutorial">Sample HealthChecks Operator Tutorial</h2>
 <p>Let's start by creating a demo namespace:</p>
 <p><code>kubectl create ns demo</code></p>
@@ -210,6 +228,7 @@ spec:
 <p><code>kubectl get healthcheck -n demo</code></p>
 <h3 id="operator-controller">Operator controller</h3>
 <p>Once you apply a HealthCheck kind resource, the operator will automatically create some resources in the namespace. The UI deployment and service to expose the dashboard, a secret that enables secure communication from the operator to the UI service, and an optional configmap volume source depending if you configured the stylesheetContent branding.</p>
+<p>The generated UI deployment includes HTTP liveness and readiness probes against <code>/healthz</code>, drops Linux capabilities, disables privilege escalation, and runs with the non-root user from the UI image. The operator also updates the HealthCheck resource status with the current phase, deployment name, service name, available replica count, and last transition time when the CRD status subresource is available.</p>
 <p>All this resources are created using OwnerReferences so that means if you delete the HealthCheck resource, all the child resources will be automatically purged with it.</p>
 <p>The operator also starts services watchers per namespace that will monitor creation, modification of labels and annotations and also services themselves. If a monitored application is added or removed and has the HealthChecks label annotation, the UI will automatically react to this events.</p>
 <h2 id="deploying-an-application-with-healthchecks-to-be-monitored-automatically">Deploying an Application with HealthChecks to be monitored automatically</h2>

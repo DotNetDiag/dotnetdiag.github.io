@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Milvus Health Check | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.Milvus">src/HealthChecks.Milvus</a>.</p>
+</blockquote>
+<h1 id="milvus-health-check">Milvus Health Check</h1>
+<p>This health check verifies the ability to communicate with a <a href="https://milvus.io/">Milvus</a> service by using <code>Milvus.Client</code>.</p>
+<p>This package is published as prerelease while <code>Milvus.Client</code> is prerelease-only.</p>
+<h2 id="builder-extension">Builder Extension</h2>
+<p>Register a <code>MilvusClient</code> in the service container or provide one with <code>clientFactory</code>.</p>
+<pre><code class="language-csharp">using Milvus.Client;
+
+void ConfigureServices(IServiceCollection services)
+{
+    services
+        .AddHealthChecks()
+        .AddMilvus(clientFactory: _ =&gt; new MilvusClient(new Uri(&quot;http://localhost:19530&quot;)));
+}
+</code></pre>
+<p>You can also register a singleton client and let the health check resolve it from the service provider.</p>
+<pre><code class="language-csharp">using Milvus.Client;
+
+void ConfigureServices(IServiceCollection services)
+{
+    services
+        .AddSingleton(new MilvusClient(new Uri(&quot;http://localhost:19530&quot;)))
+        .AddHealthChecks()
+        .AddMilvus();
+}
+</code></pre>
+<p>The health check calls <code>MilvusClient.HealthAsync</code>. An unhealthy Milvus response is reported with the configured failure status and includes the response error code and message in the health check data.</p>
+<p>Like all <code>IHealthChecksBuilder</code> extensions, the following parameters can be overridden:</p>
+<ul>
+<li><code>clientFactory</code>: A factory method to provide a <code>MilvusClient</code> instance.</li>
+<li><code>name</code>: The health check name. The default is <code>milvus</code>.</li>
+<li><code>failureStatus</code>: The <code>HealthStatus</code> that should be reported when the health check fails. The default is <code>HealthStatus.Unhealthy</code>.</li>
+<li><code>tags</code>: A list of tags that can be used to filter sets of health checks.</li>
+<li><code>timeout</code>: A <code>System.TimeSpan</code> representing the timeout of the check.</li>
+</ul>
+<p><a href="/reference/readmes/repository/">&lt;&lt;</a></p>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

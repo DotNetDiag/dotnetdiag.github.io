@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Container Registry Health Check | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.ContainerRegistry">src/HealthChecks.ContainerRegistry</a>.</p>
+</blockquote>
+<h1 id="container-registry-health-check">Container Registry Health Check</h1>
+<p>This health check verifies an OCI or Docker Registry HTTP API v2 endpoint through the registry <code>/v2/</code> endpoint.</p>
+<p>By default, the check reports healthy when the registry endpoint returns a successful HTTP status code. It also reports healthy when a private registry returns <code>401 Unauthorized</code> with a <code>WWW-Authenticate</code> challenge, because that response shows the registry endpoint is reachable and the authentication challenge is available.</p>
+<h2 id="basic-usage">Basic usage</h2>
+<pre><code class="language-csharp">services
+    .AddHealthChecks()
+    .AddContainerRegistry(new Uri(&quot;https://registry.example.com&quot;));
+</code></pre>
+<h2 id="authenticated-registry">Authenticated registry</h2>
+<p>Use <code>ConfigureRequest</code> or configure the named HTTP client when the health check should send credentials and require a successful response from the registry.</p>
+<pre><code class="language-csharp">using System.Net.Http.Headers;
+using HealthChecks.ContainerRegistry;
+
+services
+    .AddHealthChecks()
+    .AddContainerRegistry(new Uri(&quot;https://registry.example.com&quot;), options =&gt;
+    {
+        options.AllowUnauthorizedResponse = false;
+        options.ConfigureRequest = request =&gt;
+        {
+            request.Headers.Authorization = new AuthenticationHeaderValue(&quot;Bearer&quot;, token);
+        };
+    });
+</code></pre>
+<h2 id="reverse-proxy-path">Reverse proxy path</h2>
+<p>If the registry is exposed through a reverse proxy path, configure <code>RegistryEndpointPath</code>.</p>
+<pre><code class="language-csharp">using HealthChecks.ContainerRegistry;
+
+services
+    .AddHealthChecks()
+    .AddContainerRegistry(new Uri(&quot;https://proxy.example.com&quot;), options =&gt;
+    {
+        options.RegistryEndpointPath = &quot;/registry/v2/&quot;;
+    });
+</code></pre>
+<h2 id="authentication-challenge-policy">Authentication challenge policy</h2>
+<p><code>AllowUnauthorizedResponse</code> defaults to <code>true</code>, so private registries can be checked without credentials. <code>RequireAuthenticationChallenge</code> defaults to <code>true</code>, so a <code>401 Unauthorized</code> response is only healthy when it includes a <code>WWW-Authenticate</code> header.</p>
+<pre><code class="language-csharp">services
+    .AddHealthChecks()
+    .AddContainerRegistry(new Uri(&quot;https://registry.example.com&quot;), options =&gt;
+    {
+        options.AllowUnauthorizedResponse = true;
+        options.RequireAuthenticationChallenge = true;
+    });
+</code></pre>
+<h2 id="parameters">Parameters</h2>
+<ul>
+<li><code>baseUri</code>: The container registry base URI.</li>
+<li><code>setup</code>: A callback to configure <code>ContainerRegistryHealthCheckOptions</code>.</li>
+<li><code>clientFactory</code>: An optional factory method to provide the <code>HttpClient</code> instance.</li>
+<li><code>optionsFactory</code>: A factory method to provide a <code>ContainerRegistryHealthCheckOptions</code> instance.</li>
+<li><code>name</code>: The health check name. The default is <code>container_registry</code>.</li>
+<li><code>failureStatus</code>: The status to report when the health check fails. The default is <code>Unhealthy</code>.</li>
+<li><code>tags</code>: A list of tags that can be used to filter health checks.</li>
+<li><code>timeout</code>: An optional <code>TimeSpan</code> representing the timeout of the check.</li>
+<li><code>configureClient</code>: A callback to configure the named container registry health check <code>HttpClient</code>.</li>
+<li><code>configurePrimaryHttpMessageHandler</code>: A callback to configure the named container registry health check HTTP message handler.</li>
+</ul>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

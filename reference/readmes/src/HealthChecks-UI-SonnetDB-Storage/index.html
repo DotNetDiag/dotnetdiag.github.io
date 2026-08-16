@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HealthChecks.UI.SonnetDB.Storage | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.UI.SonnetDB.Storage">src/HealthChecks.UI.SonnetDB.Storage</a>.</p>
+</blockquote>
+<h2 id="healthchecks.ui-sonnetdb-storage">HealthChecks.UI SonnetDB Storage</h2>
+<p>This package stores HealthChecks UI data using SonnetDB through the SonnetDB Entity Framework Core provider.</p>
+<pre><code class="language-csharp">services
+    .AddHealthChecksUI()
+    .AddSonnetDBStorage(&quot;Data Source=./healthchecks-ui-data&quot;);
+</code></pre>
+<p>This storage provider targets <code>net10.0</code> because <code>SonnetDB.EntityFrameworkCore</code> currently ships a <code>net10.0</code> provider assembly.</p>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

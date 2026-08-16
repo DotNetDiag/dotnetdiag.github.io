@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenSearch Health Check | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.OpenSearch">src/HealthChecks.OpenSearch</a>.</p>
+</blockquote>
+<h1 id="opensearch-health-check">OpenSearch Health Check</h1>
+<p>This health check verifies the ability to communicate with an <a href="https://opensearch.org/">OpenSearch</a> cluster.</p>
+<h2 id="example-usage">Example Usage</h2>
+<pre><code class="language-csharp">services.AddHealthChecks()
+    .AddOpenSearch(&quot;http://localhost:9200&quot;);
+</code></pre>
+<p>To use the cluster health API instead of the ping API:</p>
+<pre><code class="language-csharp">services.AddHealthChecks()
+    .AddOpenSearch(&quot;http://localhost:9200&quot;, useClusterHealthApi: true);
+</code></pre>
+<p>For secured clusters, configure the underlying OpenSearch client settings through options:</p>
+<pre><code class="language-csharp">services.AddHealthChecks()
+    .AddOpenSearch(options =&gt;
+    {
+        options.UseServer(&quot;https://localhost:9200&quot;);
+        options.UseBasicAuthentication(&quot;admin&quot;, &quot;password&quot;);
+        options.UseCertificateValidationCallback(delegate
+        {
+            return true;
+        });
+        options.RequestTimeout = TimeSpan.FromSeconds(10);
+    });
+</code></pre>
+<p>To reuse an existing client:</p>
+<pre><code class="language-csharp">services.AddSingleton&lt;IOpenSearchClient&gt;(new OpenSearchClient(new Uri(&quot;http://localhost:9200&quot;)));
+
+services.AddHealthChecks()
+    .AddOpenSearch();
+</code></pre>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

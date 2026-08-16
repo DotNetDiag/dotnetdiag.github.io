@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HealthChecks.CockroachDb | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.CockroachDb">src/HealthChecks.CockroachDb</a>.</p>
+</blockquote>
+<h2 id="cockroachdb-health-check">CockroachDB Health Check</h2>
+<p>This health check verifies that CockroachDB can be reached through its PostgreSQL-compatible SQL endpoint. It can also check a CockroachDB node health endpoint such as <code>/health?ready=1</code>.</p>
+<h3 id="sql-connectivity">SQL connectivity</h3>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddCockroachDb(&quot;Host=localhost;Port=26257;Username=root;Database=defaultdb;SSL Mode=Disable&quot;);
+}
+</code></pre>
+<h3 id="custom-sql-query">Custom SQL query</h3>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddCockroachDb(
+        &quot;Host=localhost;Port=26257;Username=root;Database=defaultdb;SSL Mode=Disable&quot;,
+        options =&gt; options.CommandText = &quot;SELECT count(*) FROM system.namespace&quot;);
+}
+</code></pre>
+<h3 id="node-readiness-endpoint">Node readiness endpoint</h3>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddCockroachDb(
+        &quot;Host=localhost;Port=26257;Username=root;Database=defaultdb;SSL Mode=Disable&quot;,
+        options =&gt; options.NodeHealthEndpoint = new Uri(&quot;http://localhost:8080/health?ready=1&quot;));
+}
+</code></pre>
+<h3 id="existing-data-source">Existing data source</h3>
+<p>Register an <code>NpgsqlDataSource</code> when your application already owns the data source lifetime or needs advanced Npgsql configuration.</p>
+<pre><code class="language-csharp">using Npgsql;
+
+void Configure(IServiceCollection services)
+{
+    services.AddNpgsqlDataSource(&quot;Host=localhost;Port=26257;Username=root;Database=defaultdb;SSL Mode=Disable&quot;);
+
+    services.AddHealthChecks()
+        .AddCockroachDb();
+}
+</code></pre>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -53,6 +53,16 @@ dotnet add package DotNetDiag.HealthChecks.Redis
     .AddRedis(Configuration[&quot;ConnectionStrings:redis&quot;]);
 </code></pre>
 <p>Each builder extension also supports operational metadata such as a custom name, tags, a failure status, and a timeout.</p>
+<p>When Redis connection setup is asynchronous, use the async multiplexer factory. The factory should return a shared
+<code>IConnectionMultiplexer</code>; any asynchronous connection-string or credential resolution can happen inside the factory.</p>
+<pre><code class="language-csharp">services
+    .AddHealthChecks()
+    .AddRedis(async (_, cancellationToken) =&gt;
+    {
+        // Resolve credentials and reuse the multiplexer in application code.
+        return await GetSharedRedisConnectionMultiplexerAsync(cancellationToken);
+    });
+</code></pre>
 <pre><code class="language-csharp">services
     .AddHealthChecks()
     .AddSqlServer(

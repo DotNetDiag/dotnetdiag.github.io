@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MinIO Health Check | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.Minio">src/HealthChecks.Minio</a>.</p>
+</blockquote>
+<h1 id="minio-health-check">MinIO Health Check</h1>
+<p>This health check verifies the ability to communicate with <a href="https://min.io/">MinIO</a> by using a configured <code>IMinioClient</code>.</p>
+<h2 id="defaults">Defaults</h2>
+<p>By default, the MinIO readiness endpoint is checked. Register a singleton <code>IMinioClient</code> or provide one through <code>clientFactory</code>.</p>
+<pre><code class="language-csharp">using HealthChecks.Minio;
+using Minio;
+
+void ConfigureServices(IServiceCollection services)
+{
+    services.AddSingleton&lt;IMinioClient&gt;(_ =&gt; new MinioClient()
+        .WithEndpoint(&quot;localhost&quot;, 9000)
+        .WithCredentials(&quot;access-key&quot;, &quot;secret-key&quot;)
+        .WithSSL(false)
+        .Build());
+
+    services
+        .AddHealthChecks()
+        .AddMinio();
+}
+</code></pre>
+<h2 id="minio-probe-endpoints">MinIO probe endpoints</h2>
+<p>Use <code>HealthCheckType</code> to select the MinIO endpoint probe. Supported values are <code>Ready</code>, <code>Live</code>, <code>Cluster</code>, and <code>ClusterRead</code>.</p>
+<pre><code class="language-csharp">using HealthChecks.Minio;
+using Minio;
+
+void ConfigureServices(IServiceCollection services)
+{
+    services
+        .AddHealthChecks()
+        .AddMinio(
+            clientFactory: _ =&gt; new MinioClient()
+                .WithEndpoint(&quot;localhost&quot;, 9000)
+                .WithCredentials(&quot;access-key&quot;, &quot;secret-key&quot;)
+                .WithSSL(false)
+                .Build(),
+            optionsFactory: _ =&gt; new MinioHealthCheckOptions
+            {
+                HealthCheckType = MinioHealthCheckType.Cluster
+            });
+}
+</code></pre>
+<p>If the health probe is exposed through a different route or needs query parameters, set <code>HealthEndpointUri</code>.</p>
+<pre><code class="language-csharp">using HealthChecks.Minio;
+
+void ConfigureServices(IServiceCollection services)
+{
+    services
+        .AddHealthChecks()
+        .AddMinio(optionsFactory: _ =&gt; new MinioHealthCheckOptions
+        {
+            HealthCheckType = MinioHealthCheckType.Cluster,
+            HealthEndpointUri = new Uri(&quot;https://minio.example.com/minio/health/cluster?maintenance=true&quot;)
+        });
+}
+</code></pre>
+<h2 id="bucket-check">Bucket check</h2>
+<p>Use <code>BucketExists</code> to check whether a bucket is available through the MinIO S3-compatible API.</p>
+<pre><code class="language-csharp">using HealthChecks.Minio;
+using Minio;
+
+void ConfigureServices(IServiceCollection services)
+{
+    services.AddSingleton&lt;IMinioClient&gt;(_ =&gt; new MinioClient()
+        .WithEndpoint(&quot;localhost&quot;, 9000)
+        .WithCredentials(&quot;access-key&quot;, &quot;secret-key&quot;)
+        .WithSSL(false)
+        .Build());
+
+    services
+        .AddHealthChecks()
+        .AddMinio(optionsFactory: _ =&gt; new MinioHealthCheckOptions
+        {
+            HealthCheckType = MinioHealthCheckType.BucketExists,
+            BucketName = &quot;bucket-name&quot;
+        });
+}
+</code></pre>
+<h2 id="service-check">Service check</h2>
+<p>Use <code>ListBuckets</code> to verify authenticated service reachability without requiring a specific bucket.</p>
+<pre><code class="language-csharp">using HealthChecks.Minio;
+
+void ConfigureServices(IServiceCollection services)
+{
+    services
+        .AddHealthChecks()
+        .AddMinio(optionsFactory: _ =&gt; new MinioHealthCheckOptions
+        {
+            HealthCheckType = MinioHealthCheckType.ListBuckets
+        });
+}
+</code></pre>
+<h2 id="customization">Customization</h2>
+<p>You can additionally add the following parameters:</p>
+<ul>
+<li><code>clientFactory</code>: A factory method to provide an <code>IMinioClient</code> instance.</li>
+<li><code>optionsFactory</code>: A factory method to provide a <code>MinioHealthCheckOptions</code> instance.</li>
+<li><code>name</code>: The health check name. The default is <code>minio</code>.</li>
+<li><code>failureStatus</code>: The <code>HealthStatus</code> that should be reported when the health check fails. Default is <code>HealthStatus.Unhealthy</code>.</li>
+<li><code>tags</code>: A list of tags that can be used to filter sets of health checks.</li>
+<li><code>timeout</code>: A <code>System.TimeSpan</code> representing the timeout of the check.</li>
+</ul>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

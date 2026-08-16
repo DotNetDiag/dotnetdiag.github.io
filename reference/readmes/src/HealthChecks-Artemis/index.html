@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Artemis Health Check | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.Artemis">src/HealthChecks.Artemis</a>.</p>
+</blockquote>
+<h1 id="artemis-health-check">Artemis Health Check</h1>
+<p>This health check verifies the ability to connect to an Apache ActiveMQ Artemis broker using Apache.NMS.AMQP.</p>
+<h2 id="example-usage">Example Usage</h2>
+<pre><code class="language-csharp">public void ConfigureServices(IServiceCollection services)
+{
+    services
+        .AddHealthChecks()
+        .AddArtemis(&quot;amqp://localhost:61616&quot;);
+}
+</code></pre>
+<p>For authenticated brokers:</p>
+<pre><code class="language-csharp">public void ConfigureServices(IServiceCollection services)
+{
+    services
+        .AddHealthChecks()
+        .AddArtemis(
+            &quot;amqp://localhost:61616&quot;,
+            options =&gt;
+            {
+                options.UserName = &quot;artemis&quot;;
+                options.Password = &quot;artemis&quot;;
+                options.RequestTimeout = TimeSpan.FromSeconds(5);
+            });
+}
+</code></pre>
+<p>If the application already owns the <code>IConnectionFactory</code>, register it and let the health check resolve it:</p>
+<pre><code class="language-csharp">public void ConfigureServices(IServiceCollection services)
+{
+    services
+        .AddSingleton&lt;IConnectionFactory&gt;(new Apache.NMS.AMQP.ConnectionFactory(&quot;amqp://localhost:61616&quot;))
+        .AddHealthChecks()
+        .AddArtemis();
+}
+</code></pre>
+<p>Like all <code>IHealthChecksBuilder</code> extensions, the following parameters may be overridden:</p>
+<ul>
+<li><code>name</code>: The health check name. Default is <code>artemis</code>.</li>
+<li><code>failureStatus</code>: The <code>HealthStatus</code> that should be reported when the health check fails. Default is <code>HealthStatus.Unhealthy</code>.</li>
+<li><code>tags</code>: A list of tags that can be used to filter sets of health checks.</li>
+<li><code>timeout</code>: A <code>System.TimeSpan</code> representing the timeout of the check.</li>
+</ul>
+<p><a href="/reference/readmes/repository/">&lt;&lt;</a></p>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>

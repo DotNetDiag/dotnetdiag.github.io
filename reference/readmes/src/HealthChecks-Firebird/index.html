@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HealthChecks.Firebird | DotNetDiag HealthChecks</title>
+    <meta name="description" content="Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork." />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+    <header class="site-header">
+    <div class="container site-header-inner">
+        <a class="site-brand" href="/">DotNetDiag HealthChecks</a>
+        <nav class="site-nav">
+            <a href="/guides/">Guides</a>
+            <a href="/reference/">Reference Manual</a>
+            <a href="/news/">News</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/DotNetDiag/HealthChecks">Source</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container site-main">
+    
+
+    <div class="page-content">
+        <blockquote>
+<p>Package reference page maintained from the source documentation in <a href="https://github.com/DotNetDiag/HealthChecks/tree/master/src/HealthChecks.Firebird">src/HealthChecks.Firebird</a>.</p>
+</blockquote>
+<h2 id="firebird-health-check">Firebird Health Check</h2>
+<p>This health check verifies that a Firebird database can be reached and can execute a lightweight SQL query.</p>
+<h3 id="defaults">Defaults</h3>
+<p>By default, the package opens a Firebird connection and executes <code>SELECT 1 FROM RDB$DATABASE</code>.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddFirebird(&quot;Database=localhost:/firebird/data/app.fdb;User=SYSDBA;Password=masterkey&quot;);
+}
+</code></pre>
+<h3 id="custom-query">Custom query</h3>
+<p>Use a custom query when your application needs to validate a specific database object or permission.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddFirebird(
+        &quot;Database=localhost:/firebird/data/app.fdb;User=SYSDBA;Password=masterkey&quot;,
+        healthQuery: &quot;SELECT COUNT(*) FROM RDB$RELATIONS&quot;);
+}
+</code></pre>
+<h3 id="advanced-options">Advanced options</h3>
+<p>Use <code>FirebirdHealthCheckOptions</code> when you need to customize the connection before it opens or build a custom health check result from the query result.</p>
+<pre><code class="language-csharp">void Configure(IHealthChecksBuilder builder)
+{
+    builder.AddFirebird(new FirebirdHealthCheckOptions(&quot;Database=localhost:/firebird/data/app.fdb;User=SYSDBA;Password=masterkey&quot;)
+    {
+        CommandText = &quot;SELECT 1 FROM RDB$DATABASE&quot;,
+        HealthCheckResultBuilder = result =&gt; HealthCheckResult.Healthy($&quot;Firebird returned {result}&quot;)
+    });
+}
+</code></pre>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container site-footer-inner">
+        <p>Documentation, reference material, and changelog for the actively maintained DotNetDiag HealthChecks fork.</p>
+        <p>Maintained by DotNetDiag Maintainers / Project documentation</p>
+    </div>
+</footer>
+</body>
+</html>
